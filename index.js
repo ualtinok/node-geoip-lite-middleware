@@ -6,7 +6,7 @@ function middleware(options) {
   var inject = options.inject || field;
   var fallback = options.fallback || 'US';
   var strict = options.strict || false;
-  var cache = options.cache || true;
+  var cache = options.cache === undefined ? true : options.cache;
   var type = options.type || 'Country';
   var db = options.db;
   if(typeof db === 'string') {
