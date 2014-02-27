@@ -20,12 +20,9 @@ function middleware(options) {
       return req.next();
     }
     db.lookup(req.ip, function(err, result) {
-      var subject = cache ? req.session : req;
-      if(err && strict || err && !fallback) {
+      var value = result[field] || fallback;
+      if(err && strict || err && !value) {
         return req.next(err);
-      } else if(err) {
-        subject[options.field] = fallback;
-        return req.next();
       }
       if(cache) {
         req.session[inject] = value;
