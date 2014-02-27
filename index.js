@@ -3,6 +3,7 @@ var GeoIP = require('geoip');
 function middleware(options) {
   options = options || {};
   var field = options.field || 'country_code';
+  var inject = options.inject || field;
   var fallback = options.fallback || 'US';
   var strict = options.strict || false;
   var cache = options.cache || true;
@@ -14,7 +15,8 @@ function middleware(options) {
     throw new Error('You must provide `db` GeoIP object, or db path!');
   }
   return function geoIp(req, res, next){
-    if(cache && req.session[field]) {
+    if(cache && req.session[inject]) {
+      req[inject] = req.session[inject];
       return req.next();
     }
     db.lookup(req.ip, function(err, result) {
@@ -25,9 +27,12 @@ function middleware(options) {
         subject[options.field] = fallback;
         return req.next();
       }
-      subject[field] = result[field];
+      if(cache) {
+        req.session[inject] = value;
+      }
+      req[inject] = value;
       req.next();
-    })
+    });
   };
 }
 
