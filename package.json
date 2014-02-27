@@ -1,0 +1,28 @@
+{
+  "name": "geoip-middleware",
+  "version": "0.0.1",
+  "description": "GeoIP middleware for express/connect",
+  "main": "index.js",
+  "dependencies": {
+    "geoip": "~0.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:purposeindustries/node-geoip-middleware.git"
+  },
+  "keywords": [
+    "geoip",
+    "connect",
+    "express",
+    "middleware"
+  ],
+  "author": "Purpose Industries <dev@purposeindustries.co>",
+  "contributors": [{
+    "name": "Bence Dányi",
+    "email": "bd@purposeindustries.co"
+  }],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purposeindustries/node-geoip-middleware/issues"
+  }
+}
