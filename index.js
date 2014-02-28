@@ -16,7 +16,7 @@ function middleware(options) {
       return req.next();
     }
     db.lookup(req.ip, function(err, result) {
-      var value = result[field] || fallback;
+      var value = result && result[field] || fallback;
       if(err && strict || err && !value) {
         return req.next(err);
       }
