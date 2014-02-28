@@ -1,29 +1,37 @@
 function middleware(options) {
   options = options || {};
-  var field = options.field || 'country_code';
-  var inject = options.inject || field;
-  var fallback = options.fallback || 'US';
-  var strict = options.strict || false;
+  var fields = options.fields || ['country_code', 'continent_code'];
+  var defaults = options.defaults || {
+    country_code: 'US',
+    continent_code: 'NA'
+  };
+  var strict = options.strict;
   var cache = options.cache === undefined ? true : options.cache;
-  var type = options.type || 'Country';
   var db = options.db;
   if (!db) {
     throw new Error('You must provide `db` GeoIP object!');
   }
   return function geoIp(req, res, next){
-    if(cache && req.session[inject]) {
-      req[inject] = req.session[inject];
+    if(cache && req.session && req.session.geoip) {
+      for(var field in fields) {
+        req[fields[field]] = req.session.geoip[fields[field]];
+      }
       return req.next();
     }
     db.lookup(req.ip, function(err, result) {
-      var value = result && result[field] || fallback;
-      if(err && strict || err && !value) {
+      result = result || defaults;
+      if(err && strict) {
         return req.next(err);
       }
       if(cache) {
-        req.session[inject] = value;
+        req.session.geoip = fields.reduce(function(geo, field){
+          geo[field] = result[field];
+          return geo;
+        }, {});
       }
-      req[inject] = value;
+      for(var field in fields) {
+        req[fields[field]] = result[fields[field]];
+      }
       req.next();
     });
   };
