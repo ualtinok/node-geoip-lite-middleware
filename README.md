@@ -1,6 +1,9 @@
 # node-geoip-middleware
 
-GeoIP middleware for Connect/Express.
+GeoIP middleware for Connect/Express. Can be used with
+[`geoip`](http://github.com/kuno/GeoIP),
+[`geoip-static`](http://github.com/toots/GeoIP) or
+any service that has a `lookup(ip, callback)` method.
 
 ## Install
 
@@ -14,7 +17,7 @@ npm install geoip-middleware
 
 ### middleware(options)
 
-- `options.db` GeoIP db instance, or path to db.
+- `options.db` GeoIP db instance.
 - `options.type` When `db` is a path, this type of `geoip` is created.
   Defaults to `'Country'`
 - `options.field` Extracted field from `geoip` result.

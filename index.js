@@ -1,5 +1,3 @@
-var GeoIP = require('geoip');
-
 function middleware(options) {
   options = options || {};
   var field = options.field || 'country_code';
@@ -9,10 +7,8 @@ function middleware(options) {
   var cache = options.cache === undefined ? true : options.cache;
   var type = options.type || 'Country';
   var db = options.db;
-  if(typeof db === 'string') {
-    db = new (GeoIP[type])(db);
-  } else if (!db) {
-    throw new Error('You must provide `db` GeoIP object, or db path!');
+  if (!db) {
+    throw new Error('You must provide `db` GeoIP object!');
   }
   return function geoIp(req, res, next){
     if(cache && req.session[inject]) {
