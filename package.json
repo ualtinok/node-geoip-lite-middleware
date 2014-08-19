@@ -1,5 +1,5 @@
 {
-  "name": "geoip-middleware",
+  "name": "geoip-lite-middleware",
   "version": "0.1.0",
   "description": "GeoIP middleware for express/connect",
   "main": "index.js",
